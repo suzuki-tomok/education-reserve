@@ -1,5 +1,6 @@
 # apps/core/models/reservation.py
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Reservation(models.Model):
@@ -12,6 +13,7 @@ class Reservation(models.Model):
     instructor_shift = models.ForeignKey("InstructorShift", on_delete=models.PROTECT, related_name="reservations")
     course = models.ForeignKey("Course", on_delete=models.PROTECT, related_name="reservations")
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "reservations"

@@ -1,5 +1,6 @@
 # apps/core/models/progress.py
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Progress(models.Model):
@@ -14,6 +15,7 @@ class Progress(models.Model):
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NOT_STARTED)
     note = models.TextField(blank=True, default="")
     last_updated = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "progress"

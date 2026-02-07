@@ -1,5 +1,6 @@
 # apps/core/models/instructor_shift.py
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class InstructorShift(models.Model):
@@ -11,6 +12,7 @@ class InstructorShift(models.Model):
     shift_date = models.DateField()
     slot = models.ForeignKey("TimeSlot", on_delete=models.CASCADE, related_name="shifts")
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.CLOSED)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "instructor_shifts"

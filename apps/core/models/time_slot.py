@@ -1,11 +1,13 @@
 # apps/core/models/time_slot.py
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class TimeSlot(models.Model):
     slot_number = models.PositiveIntegerField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "time_slots"

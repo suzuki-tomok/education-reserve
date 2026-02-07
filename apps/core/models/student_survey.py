@@ -1,5 +1,6 @@
 # apps/core/models/student_survey.py
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class StudentSurvey(models.Model):
@@ -8,6 +9,7 @@ class StudentSurvey(models.Model):
     rating = models.PositiveIntegerField()
     comment = models.TextField(blank=True, default="")
     submitted_at = models.DateTimeField(auto_now_add=True)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "student_surveys"

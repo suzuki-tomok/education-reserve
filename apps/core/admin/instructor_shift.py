@@ -8,6 +8,7 @@ from apps.core.models import InstructorShift
 class InstructorShiftAdmin(admin.ModelAdmin):
     list_display = ("id", "instructor", "shift_date", "slot", "status")
     list_display_links = ("id", "instructor")
+    list_editable = ("status",)
     list_filter = ("status", "shift_date", "instructor")
     date_hierarchy = "shift_date"
     actions = ["mark_open", "mark_closed"]

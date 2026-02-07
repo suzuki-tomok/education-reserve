@@ -1,5 +1,6 @@
 # apps/core/models/student.py
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Student(models.Model):
@@ -17,6 +18,7 @@ class Student(models.Model):
     grade = models.CharField(max_length=50, blank=True, default="")
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
     created_at = models.DateTimeField(auto_now_add=True)
+    history = HistoricalRecords()
 
     class Meta:
         db_table = "students"
