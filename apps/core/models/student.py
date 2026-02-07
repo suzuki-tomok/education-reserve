@@ -8,6 +8,7 @@ class Student(models.Model):
         INACTIVE = "inactive", "退会"
         SUSPENDED = "suspended", "休会"
 
+    user = models.OneToOneField("auth.User", on_delete=models.CASCADE, related_name="student")
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     school = models.ForeignKey("School", on_delete=models.PROTECT, related_name="students")

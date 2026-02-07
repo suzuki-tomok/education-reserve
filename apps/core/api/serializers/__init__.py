@@ -4,3 +4,4 @@ from .shift import ShiftSerializer
 from .reservation import ReservationCreateSerializer, ReservationListSerializer
 from .progress import ProgressSerializer
 from .survey import SurveyCreateSerializer
+from .auth import LoginSerializer, MeSerializer

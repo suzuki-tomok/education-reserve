@@ -1,13 +1,12 @@
 # apps/core/api/views/shift.py
-from rest_framework import viewsets
-from django.db.models import Q
+from rest_framework import viewsets, mixins
 
 from apps.core.models import InstructorShift
 from apps.core.api.serializers import ShiftSerializer
 from apps.core.api.filters import ShiftFilter
 
 
-class ShiftViewSet(viewsets.ReadOnlyModelViewSet):
+class ShiftViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = ShiftSerializer
     filterset_class = ShiftFilter
 

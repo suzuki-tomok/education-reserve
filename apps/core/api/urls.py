@@ -8,6 +8,8 @@ from apps.core.api.views import (
     ReservationViewSet,
     ProgressViewSet,
     SurveyViewSet,
+    LoginView,
+    MeView,
 )
 
 router = DefaultRouter()
@@ -18,5 +20,7 @@ router.register("progress", ProgressViewSet, basename="progress")
 router.register("surveys", SurveyViewSet, basename="survey")
 
 urlpatterns = [
+    path("auth/login/", LoginView.as_view(), name="login"),
+    path("auth/me/", MeView.as_view(), name="me"),
     path("", include(router.urls)),
 ]

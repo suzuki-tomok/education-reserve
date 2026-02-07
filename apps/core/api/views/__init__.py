@@ -4,3 +4,4 @@ from .shift import ShiftViewSet
 from .reservation import ReservationViewSet
 from .progress import ProgressViewSet
 from .survey import SurveyViewSet
+from .auth import LoginView, MeView
