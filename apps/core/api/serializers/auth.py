@@ -10,6 +10,8 @@ class LoginSerializer(serializers.Serializer):
 
 
 class MeSerializer(serializers.ModelSerializer):
+    school_name = serializers.CharField(source="school.name", read_only=True)
+
     class Meta:
         model = Student
-        fields = ("id", "name", "email", "school", "grade", "status")
+        fields = ("id", "name", "email", "school_name", "grade", "status")

@@ -147,4 +147,16 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Education Reserve API",
     "DESCRIPTION": "教育予約管理システム - 生徒向けAPI",
     "VERSION": "1.0.0",
+    "SECURITY": [{"TokenAuth": []}],
+    "APPEND_COMPONENTS": {
+        "securitySchemes": {
+            "TokenAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "Token xxxxxxxxxx の形式で入力",
+            }
+        }
+    },
+    "AUTHENTICATION_WHITELIST": [],
 }

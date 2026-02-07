@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
 from apps.core.api.serializers import LoginSerializer, MeSerializer
 
@@ -13,6 +14,7 @@ class LoginView(APIView):
     authentication_classes = []
     permission_classes = []
 
+    @extend_schema(request=LoginSerializer)
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

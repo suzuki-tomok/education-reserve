@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from django.shortcuts import redirect
 
 admin.site.site_header = "Education Reserve 管理サイト"
 admin.site.site_title = "Education Reserve"
 admin.site.index_title = "管理メニュー"
 
 urlpatterns = [
+    path("", lambda request: redirect("admin/")),
     path("admin/", admin.site.urls),
     path("api/", include("apps.core.api.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
