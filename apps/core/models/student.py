@@ -20,6 +20,8 @@ class Student(models.Model):
 
     class Meta:
         db_table = "students"
+        verbose_name = "生徒"
+        verbose_name_plural = "生徒"
 
     def __str__(self):
         return self.name

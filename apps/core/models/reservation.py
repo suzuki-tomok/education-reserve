@@ -15,6 +15,8 @@ class Reservation(models.Model):
 
     class Meta:
         db_table = "reservations"
+        verbose_name = "予約"
+        verbose_name_plural = "予約"
 
     def __str__(self):
         return f"{self.student.name} - {self.course.title} ({self.status})"

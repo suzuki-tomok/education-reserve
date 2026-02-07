@@ -14,6 +14,8 @@ class InstructorShift(models.Model):
 
     class Meta:
         db_table = "instructor_shifts"
+        verbose_name = "シフト"
+        verbose_name_plural = "シフト"
         constraints = [
             models.UniqueConstraint(
                 fields=["instructor", "shift_date", "slot"],

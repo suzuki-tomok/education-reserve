@@ -9,6 +9,8 @@ class Course(models.Model):
 
     class Meta:
         db_table = "courses"
+        verbose_name = "講座"
+        verbose_name_plural = "講座"
 
     def __str__(self):
         return self.title

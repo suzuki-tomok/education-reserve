@@ -8,6 +8,8 @@ class InstructorSkill(models.Model):
 
     class Meta:
         db_table = "instructor_skills"
+        verbose_name = "講師スキル"
+        verbose_name_plural = "講師スキル"
         constraints = [
             models.UniqueConstraint(
                 fields=["instructor", "course"],

@@ -16,6 +16,8 @@ class Instructor(models.Model):
 
     class Meta:
         db_table = "instructors"
+        verbose_name = "講師"
+        verbose_name_plural = "講師"
 
     def __str__(self):
         return self.name

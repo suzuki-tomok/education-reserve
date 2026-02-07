@@ -17,6 +17,8 @@ class Progress(models.Model):
 
     class Meta:
         db_table = "progress"
+        verbose_name = "進捗"
+        verbose_name_plural = "進捗"
         constraints = [
             models.UniqueConstraint(
                 fields=["student", "course"],
