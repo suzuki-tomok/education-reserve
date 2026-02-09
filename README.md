@@ -25,6 +25,12 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
+
+# パッケージインストール（開発）
+pip install -r requirements-dev.txt
+
+# テスト実行
+pytest
 ```
 
 ## API一覧
