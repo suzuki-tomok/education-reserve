@@ -9,7 +9,11 @@
 - Django REST Framework
 - drf-spectacular（Swagger）
 - django-simple-history（変更履歴）
+- django-filter
 - SQLite（開発） / PostgreSQL（本番）
+- pytest + factory-boy（テスト）
+- ruff（リンター・フォーマッター）
+- GitHub Actions（CI）
 
 ## アーキテクチャ
 
@@ -19,32 +23,85 @@
 
 ## セットアップ
 ```bash
+# リポジトリをクローン
+git clone https://github.com/tomokisuzuki/education-reserve.git
+cd education-reserve
+
+# 仮想環境の作成・有効化
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
 
 # パッケージインストール（開発）
 pip install -r requirements-dev.txt
 
-# テスト実行
-pytest
+# マイグレーション
+python manage.py migrate
+
+# 管理者ユーザー作成
+python manage.py createsuperuser
+
+# 開発サーバー起動
+python manage.py runserver
 ```
+
+### アクセス先
+
+| 画面 | URL |
+|------|-----|
+| Admin画面 | http://127.0.0.1:8000/admin/ |
+| Swagger UI | http://127.0.0.1:8000/api/docs/ |
 
 ## API一覧
 
-| メソッド | エンドポイント | 説明 |
-|---------|--------------|------|
-| POST | /api/auth/login/ | ログイン |
-| GET | /api/auth/me/ | ユーザー情報取得 |
-| GET | /api/courses/ | 講座一覧 |
-| GET | /api/shifts/ | 空きシフト検索 |
-| GET | /api/reservations/ | 自分の予約一覧 |
-| POST | /api/reservations/ | 予約作成 |
-| GET | /api/progress/ | 自分の進捗 |
-| POST | /api/surveys/ | アンケート提出 |
+| メソッド | エンドポイント | 説明 | 認証 |
+|---------|--------------|------|------|
+| POST | /api/auth/login/ | ログイン | 不要 |
+| GET | /api/auth/me/ | ユーザー情報取得 | 必要 |
+| GET | /api/courses/ | 講座一覧 | 不要 |
+| GET | /api/courses/{id}/ | 講座詳細 | 不要 |
+| GET | /api/shifts/ | 空きシフト検索 | 不要 |
+| GET | /api/reservations/ | 自分の予約一覧 | 必要 |
+| POST | /api/reservations/ | 予約作成 | 必要 |
+| GET | /api/progress/ | 自分の進捗 | 必要 |
+| POST | /api/surveys/ | アンケート提出 | 必要 |
+
+## 開発ガイド
+
+### push前の確認手順
+```bash
+# リントチェック
+ruff check .
+
+# フォーマットチェック
+ruff format . --check
+
+# フォーマット自動修正
+ruff format .
+
+# テスト実行
+pytest -v
+
+# カバレッジ付きテスト
+pytest -v --cov=apps
+```
+
+### CI（GitHub Actions）
+
+`main` ブランチへのpush・PRで自動実行されます。
+
+| ステップ | 内容 |
+|---------|------|
+| Lint | `ruff check .` / `ruff format . --check` |
+| Test | `pytest -v --cov=apps` |
+
+### テスト構成
+
+| ファイル | 内容 |
+|---------|------|
+| tests/conftest.py | 共通fixture（認証済みクライアント等） |
+| tests/factories.py | factory-boyによるテストデータ生成 |
+| tests/test_models.py | モデルテスト（制約、デフォルト値） |
+| tests/test_api.py | APIテスト（正常系・異常系） |
 
 ## TODO
 
@@ -55,8 +112,8 @@ pytest
 - [x] TokenAuthentication（ログイン・ユーザー情報API）
 - [x] django-simple-history（全モデルの変更履歴）
 - [x] Swagger UI（drf-spectacular）
-- [ ] テスト（pytest + factory-boy）
-- [ ] CI（GitHub Actions）
+- [x] テスト（pytest + factory-boy）
+- [x] CI（GitHub Actions）
 - [ ] Docker化（アプリ + PostgreSQL + Nginx）
 - [ ] EC2デプロイ（Nginx + Gunicorn）
 - [ ] CloudFormation（EC2 + RDS + VPC + SG）
