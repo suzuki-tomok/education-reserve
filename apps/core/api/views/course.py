@@ -8,3 +8,4 @@ from apps.core.api.serializers import CourseSerializer
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    ordering = ["-id"]

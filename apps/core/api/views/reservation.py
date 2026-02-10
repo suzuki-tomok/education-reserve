@@ -12,6 +12,7 @@ class ReservationViewSet(
     viewsets.GenericViewSet,
 ):
     permission_classes = [IsAuthenticated]
+    ordering = ["-id"]
 
     def get_queryset(self):
         return (

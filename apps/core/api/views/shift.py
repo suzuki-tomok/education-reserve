@@ -9,6 +9,7 @@ from apps.core.api.filters import ShiftFilter
 class ShiftViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = ShiftSerializer
     filterset_class = ShiftFilter
+    ordering = ["-id"]
 
     def get_queryset(self):
         return (

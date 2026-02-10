@@ -9,6 +9,7 @@ from apps.core.api.serializers import ProgressSerializer
 class ProgressViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ProgressSerializer
+    ordering = ["-id"]
 
     def get_queryset(self):
         return (
