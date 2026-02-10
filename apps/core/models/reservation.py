@@ -9,10 +9,18 @@ class Reservation(models.Model):
         CANCELLED = "cancelled", "キャンセル"
         PENDING = "pending", "仮予約"
 
-    student = models.ForeignKey("Student", on_delete=models.CASCADE, related_name="reservations")
-    instructor_shift = models.ForeignKey("InstructorShift", on_delete=models.PROTECT, related_name="reservations")
-    course = models.ForeignKey("Course", on_delete=models.PROTECT, related_name="reservations")
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
+    student = models.ForeignKey(
+        "Student", on_delete=models.CASCADE, related_name="reservations"
+    )
+    instructor_shift = models.ForeignKey(
+        "InstructorShift", on_delete=models.PROTECT, related_name="reservations"
+    )
+    course = models.ForeignKey(
+        "Course", on_delete=models.PROTECT, related_name="reservations"
+    )
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.PENDING
+    )
     history = HistoricalRecords()
 
     class Meta:

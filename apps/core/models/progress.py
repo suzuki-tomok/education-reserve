@@ -9,10 +9,18 @@ class Progress(models.Model):
         IN_PROGRESS = "in_progress", "進行中"
         COMPLETED = "completed", "完了"
 
-    student = models.ForeignKey("Student", on_delete=models.CASCADE, related_name="progress")
-    instructor = models.ForeignKey("Instructor", on_delete=models.SET_NULL, null=True, related_name="progress")
-    course = models.ForeignKey("Course", on_delete=models.PROTECT, related_name="progress")
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.NOT_STARTED)
+    student = models.ForeignKey(
+        "Student", on_delete=models.CASCADE, related_name="progress"
+    )
+    instructor = models.ForeignKey(
+        "Instructor", on_delete=models.SET_NULL, null=True, related_name="progress"
+    )
+    course = models.ForeignKey(
+        "Course", on_delete=models.PROTECT, related_name="progress"
+    )
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.NOT_STARTED
+    )
     note = models.TextField(blank=True, default="")
     last_updated = models.DateTimeField(auto_now=True)
     history = HistoricalRecords()

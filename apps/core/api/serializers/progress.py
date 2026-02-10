@@ -10,4 +10,11 @@ class ProgressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Progress
-        fields = ("id", "course_title", "instructor_name", "status", "note", "last_updated")
+        fields = (
+            "id",
+            "course_title",
+            "instructor_name",
+            "status",
+            "note",
+            "last_updated",
+        )

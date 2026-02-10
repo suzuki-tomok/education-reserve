@@ -8,10 +8,16 @@ class InstructorShift(models.Model):
         OPEN = "open", "出勤"
         CLOSED = "closed", "休み"
 
-    instructor = models.ForeignKey("Instructor", on_delete=models.CASCADE, related_name="shifts")
+    instructor = models.ForeignKey(
+        "Instructor", on_delete=models.CASCADE, related_name="shifts"
+    )
     shift_date = models.DateField()
-    slot = models.ForeignKey("TimeSlot", on_delete=models.CASCADE, related_name="shifts")
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.CLOSED)
+    slot = models.ForeignKey(
+        "TimeSlot", on_delete=models.CASCADE, related_name="shifts"
+    )
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.CLOSED
+    )
     history = HistoricalRecords()
 
     class Meta:

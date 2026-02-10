@@ -12,7 +12,6 @@ class ProgressViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     ordering = ["-id"]
 
     def get_queryset(self):
-        return (
-            Progress.objects.filter(student=self.request.user.student)
-            .select_related("course", "instructor")
-        )
+        return Progress.objects.filter(
+            student=self.request.user.student
+        ).select_related("course", "instructor")

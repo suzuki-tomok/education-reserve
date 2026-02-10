@@ -36,7 +36,9 @@ class TestCourse:
 @pytest.mark.django_db
 class TestTimeSlot:
     def test_str(self):
-        slot = TimeSlotFactory(slot_number=1, start_time="09:00:00", end_time="10:00:00")
+        slot = TimeSlotFactory(
+            slot_number=1, start_time="09:00:00", end_time="10:00:00"
+        )
         assert "1限" in str(slot)
 
 

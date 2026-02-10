@@ -16,7 +16,11 @@ class SurveyCreateSerializer(serializers.ModelSerializer):
 
     def validate_reservation(self, value):
         if value.status != "confirmed":
-            raise serializers.ValidationError("確定済みの予約のみアンケート回答できます。")
+            raise serializers.ValidationError(
+                "確定済みの予約のみアンケート回答できます。"
+            )
         if hasattr(value, "survey"):
-            raise serializers.ValidationError("この予約にはすでにアンケートが回答済みです。")
+            raise serializers.ValidationError(
+                "この予約にはすでにアンケートが回答済みです。"
+            )
         return value

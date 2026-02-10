@@ -38,11 +38,13 @@ class LoginView(APIView):
 
         token, _ = Token.objects.get_or_create(user=user)
 
-        return Response({
-            "token": token.key,
-            "student_id": user.student.id,
-            "name": user.student.name,
-        })
+        return Response(
+            {
+                "token": token.key,
+                "student_id": user.student.id,
+                "name": user.student.name,
+            }
+        )
 
 
 class MeView(APIView):

@@ -4,8 +4,12 @@ from simple_history.models import HistoricalRecords
 
 
 class InstructorSkill(models.Model):
-    instructor = models.ForeignKey("Instructor", on_delete=models.CASCADE, related_name="skills")
-    course = models.ForeignKey("Course", on_delete=models.CASCADE, related_name="skilled_instructors")
+    instructor = models.ForeignKey(
+        "Instructor", on_delete=models.CASCADE, related_name="skills"
+    )
+    course = models.ForeignKey(
+        "Course", on_delete=models.CASCADE, related_name="skilled_instructors"
+    )
     history = HistoricalRecords()
 
     class Meta:

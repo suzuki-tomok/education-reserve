@@ -14,8 +14,6 @@ class ShiftViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     def get_queryset(self):
         return (
             InstructorShift.objects.filter(status="open")
-            .exclude(
-                reservations__status__in=["pending", "confirmed"]
-            )
+            .exclude(reservations__status__in=["pending", "confirmed"])
             .select_related("instructor", "slot")
         )

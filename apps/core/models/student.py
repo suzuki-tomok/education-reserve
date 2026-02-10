@@ -9,14 +9,20 @@ class Student(models.Model):
         INACTIVE = "inactive", "退会"
         SUSPENDED = "suspended", "休会"
 
-    user = models.OneToOneField("auth.User", on_delete=models.CASCADE, related_name="student")
+    user = models.OneToOneField(
+        "auth.User", on_delete=models.CASCADE, related_name="student"
+    )
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    school = models.ForeignKey("School", on_delete=models.PROTECT, related_name="students")
+    school = models.ForeignKey(
+        "School", on_delete=models.PROTECT, related_name="students"
+    )
     enrollment_year = models.PositiveIntegerField()
     age = models.PositiveIntegerField()
     grade = models.CharField(max_length=50, blank=True, default="")
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.ACTIVE
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     history = HistoricalRecords()
 

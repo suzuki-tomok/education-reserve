@@ -3,7 +3,10 @@ from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 
 from apps.core.models import Reservation
-from apps.core.api.serializers import ReservationCreateSerializer, ReservationListSerializer
+from apps.core.api.serializers import (
+    ReservationCreateSerializer,
+    ReservationListSerializer,
+)
 
 
 class ReservationViewSet(
@@ -17,7 +20,9 @@ class ReservationViewSet(
     def get_queryset(self):
         return (
             Reservation.objects.filter(student=self.request.user.student)
-            .select_related("instructor_shift__instructor", "instructor_shift__slot", "course")
+            .select_related(
+                "instructor_shift__instructor", "instructor_shift__slot", "course"
+            )
             .order_by("-id")
         )
 

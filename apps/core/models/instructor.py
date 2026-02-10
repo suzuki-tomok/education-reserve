@@ -10,9 +10,13 @@ class Instructor(models.Model):
 
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    school = models.ForeignKey("School", on_delete=models.PROTECT, related_name="instructors")
+    school = models.ForeignKey(
+        "School", on_delete=models.PROTECT, related_name="instructors"
+    )
     tenure_years = models.PositiveIntegerField()
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.ACTIVE
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     history = HistoricalRecords()
 
