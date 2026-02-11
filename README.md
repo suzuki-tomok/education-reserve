@@ -145,7 +145,7 @@ docker compose down
 - [x] テスト（pytest + factory-boy）
 - [x] CI（GitHub Actions）
 - [x] Docker化（アプリ + PostgreSQL + Nginx）
-- [ ] EC2デプロイ（Nginx + Gunicorn）
+- [x] EC2デプロイ（Nginx + Gunicorn）
 - [ ] CloudFormation（EC2 + RDS + VPC + SG）
 - [ ] ER図（Mermaid）
 - [ ] 業務シーケンス図（Mermaid）
