@@ -103,6 +103,36 @@ pytest -v --cov=apps
 | tests/test_models.py | モデルテスト（制約、デフォルト値） |
 | tests/test_api.py | APIテスト（正常系・異常系） |
 
+## Docker環境
+```bash
+# .env.dockerを作成（初回のみ）
+cp .env.docker.example .env.docker
+
+# コンテナ起動
+docker compose up --build
+
+# 管理者ユーザー作成（別ターミナルで）
+docker compose exec app python manage.py createsuperuser
+
+# コンテナ停止
+docker compose down
+```
+
+### アクセス先
+
+| 画面 | URL |
+|------|-----|
+| Admin画面 | http://localhost/admin/ |
+| Swagger UI | http://localhost/api/docs/ |
+
+### 構成
+
+| コンテナ | 役割 |
+|---------|------|
+| app | Django + Gunicorn |
+| db | PostgreSQL 16 |
+| nginx | リバースプロキシ + 静的ファイル配信 |
+
 ## TODO
 
 - [x] プロジェクト構成・settings
