@@ -147,5 +147,5 @@ docker compose down
 - [x] Docker化（アプリ + PostgreSQL + Nginx）
 - [x] EC2デプロイ（Nginx + Gunicorn）
 - [x] CloudFormation（EC2 + RDS + VPC + SG）
-- [ ] ER図（Mermaid）
+- [x] ER図（Mermaid）
 - [ ] 業務シーケンス図（Mermaid）
