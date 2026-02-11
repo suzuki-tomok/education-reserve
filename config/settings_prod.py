@@ -8,7 +8,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost", "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost", "http://127.0.0.1", "http://*.amazonaws.com"]
 
 DATABASES = {
     "default": {
