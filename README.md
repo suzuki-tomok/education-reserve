@@ -114,7 +114,7 @@ pytest -v --cov=apps
 - [x] Swagger UI（drf-spectacular）
 - [x] テスト（pytest + factory-boy）
 - [x] CI（GitHub Actions）
-- [ ] Docker化（アプリ + PostgreSQL + Nginx）
+- [x] Docker化（アプリ + PostgreSQL + Nginx）
 - [ ] EC2デプロイ（Nginx + Gunicorn）
 - [ ] CloudFormation（EC2 + RDS + VPC + SG）
 - [ ] ER図（Mermaid）
