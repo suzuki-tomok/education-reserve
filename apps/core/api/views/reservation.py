@@ -3,6 +3,9 @@ from django.db import transaction
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import serializers
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 
 from apps.core.models import Reservation
 from apps.core.api.serializers import (
@@ -49,3 +52,18 @@ class ReservationViewSet(
                 )
 
             serializer.save(student=self.request.user.student)
+
+    @action(detail=True, methods=["post"])
+    def cancel(self, request, pk=None):
+        reservation = self.get_object()
+
+        if reservation.status not in ["pending", "confirmed"]:
+            return Response(
+                {"detail": "この予約はキャンセルできません。"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        reservation.status = "cancelled"
+        reservation.save()
+
+        return Response({"detail": "キャンセルしました。"})
