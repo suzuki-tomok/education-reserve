@@ -62,6 +62,7 @@ python manage.py runserver
 | GET | /api/shifts/ | 空きシフト検索 | 不要 |
 | GET | /api/reservations/ | 自分の予約一覧 | 必要 |
 | POST | /api/reservations/ | 予約作成 | 必要 |
+| POST | /api/reservations/{id}/cancel/ | 予約キャンセル | 必要 |
 | GET | /api/progress/ | 自分の進捗 | 必要 |
 | POST | /api/surveys/ | アンケート提出 | 必要 |
 

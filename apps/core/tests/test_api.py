@@ -262,3 +262,49 @@ class TestSurveys:
             },
         )
         assert response.status_code == 400
+
+
+@pytest.mark.django_db
+class TestCancelReservation:
+    def test_cancel_pending(self, auth_client, student):
+        """正常系：pending → cancelled"""
+        shift = InstructorShiftFactory()
+        reservation = ReservationFactory(
+            student=student, instructor_shift=shift, status="pending"
+        )
+        response = auth_client.post(f"/api/reservations/{reservation.id}/cancel/")
+        assert response.status_code == 200
+        reservation.refresh_from_db()
+        assert reservation.status == "cancelled"
+
+    def test_cancel_confirmed(self, auth_client, student):
+        """正常系：confirmed → cancelled"""
+        shift = InstructorShiftFactory()
+        reservation = ReservationFactory(
+            student=student, instructor_shift=shift, status="confirmed"
+        )
+        response = auth_client.post(f"/api/reservations/{reservation.id}/cancel/")
+        assert response.status_code == 200
+        reservation.refresh_from_db()
+        assert reservation.status == "cancelled"
+
+    def test_cancel_already_cancelled(self, auth_client, student):
+        """異常系：すでにキャンセル済み"""
+        shift = InstructorShiftFactory()
+        reservation = ReservationFactory(
+            student=student, instructor_shift=shift, status="cancelled"
+        )
+        response = auth_client.post(f"/api/reservations/{reservation.id}/cancel/")
+        assert response.status_code == 400
+
+    def test_cancel_others_reservation(self, auth_client, student):
+        """異常系：他人の予約"""
+        reservation = ReservationFactory(status="pending")
+        response = auth_client.post(f"/api/reservations/{reservation.id}/cancel/")
+        assert response.status_code == 404
+
+    def test_cancel_unauthenticated(self, api_client):
+        """異常系：未認証"""
+        reservation = ReservationFactory(status="pending")
+        response = api_client.post(f"/api/reservations/{reservation.id}/cancel/")
+        assert response.status_code == 401
