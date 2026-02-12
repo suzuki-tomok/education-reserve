@@ -1,12 +1,15 @@
 # apps/core/api/views/reservation.py
+from django.db import transaction
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import serializers
 
 from apps.core.models import Reservation
 from apps.core.api.serializers import (
     ReservationCreateSerializer,
     ReservationListSerializer,
 )
+from apps.core.models.instructor_shift import InstructorShift
 
 
 class ReservationViewSet(
@@ -32,4 +35,17 @@ class ReservationViewSet(
         return ReservationListSerializer
 
     def perform_create(self, serializer):
-        serializer.save(student=self.request.user.student)
+        with transaction.atomic():
+            shift = InstructorShift.objects.select_for_update().get(
+                id=serializer.validated_data["instructor_shift"].id
+            )
+
+            if shift.status != "open":
+                raise serializers.ValidationError("このシフトは出勤ではありません。")
+
+            if shift.reservations.filter(status__in=["pending", "confirmed"]).exists():
+                raise serializers.ValidationError(
+                    "このシフトはすでに予約が入っています。"
+                )
+
+            serializer.save(student=self.request.user.student)

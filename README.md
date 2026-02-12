@@ -29,7 +29,7 @@ cd education-reserve
 
 # 仮想環境の作成・有効化
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/Scripts/activate
 
 # パッケージインストール（開発）
 pip install -r requirements-dev.txt
