@@ -21,8 +21,20 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         shift = data["instructor_shift"]
         course = data["course"]
+
         if not shift.instructor.skills.filter(course=course).exists():
             raise serializers.ValidationError("この講師はこの講座を担当できません。")
+
+        # 同じ時間帯の予約チェック
+        student = self.context["request"].user.student
+        if Reservation.objects.filter(
+            student=student,
+            instructor_shift__shift_date=shift.shift_date,
+            instructor_shift__slot=shift.slot,
+            status__in=["pending", "confirmed"],
+        ).exists():
+            raise serializers.ValidationError("この時間帯にはすでに予約があります。")
+
         return data
 
 

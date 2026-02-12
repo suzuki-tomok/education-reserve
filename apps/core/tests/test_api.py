@@ -8,6 +8,8 @@ from apps.core.tests.factories import (
     InstructorSkillFactory,
     ReservationFactory,
     StudentFactory,
+    ProgressFactory,
+    TimeSlotFactory,
 )
 
 
@@ -169,6 +171,36 @@ class TestReservations:
         response = api_client.get("/api/reservations/")
         assert response.status_code == 401
 
+    def test_same_student_same_timeslot(self, auth_client, student):
+        slot = TimeSlotFactory()
+        course1 = CourseFactory()
+        course2 = CourseFactory()
+
+        instructor1 = InstructorFactory()
+        instructor2 = InstructorFactory()
+        InstructorSkillFactory(instructor=instructor1, course=course1)
+        InstructorSkillFactory(instructor=instructor2, course=course2)
+
+        shift1 = InstructorShiftFactory(
+            instructor=instructor1, slot=slot, shift_date="2026-03-01", status="open"
+        )
+        shift2 = InstructorShiftFactory(
+            instructor=instructor2, slot=slot, shift_date="2026-03-01", status="open"
+        )
+
+        # 1件目：成功
+        auth_client.post(
+            "/api/reservations/",
+            {"instructor_shift": shift1.id, "course": course1.id},
+        )
+
+        # 2件目：同じ時間帯 → 弾かれるべき
+        response = auth_client.post(
+            "/api/reservations/",
+            {"instructor_shift": shift2.id, "course": course2.id},
+        )
+        assert response.status_code == 400
+
 
 @pytest.mark.django_db
 class TestProgress:
@@ -179,6 +211,12 @@ class TestProgress:
     def test_unauthenticated(self, api_client):
         response = api_client.get("/api/progress/")
         assert response.status_code == 401
+
+    def test_cannot_see_others_progress(self, auth_client, student):
+        ProgressFactory()  # 別の生徒の進捗
+        response = auth_client.get("/api/progress/")
+        assert response.status_code == 200
+        assert response.data["count"] == 0
 
 
 @pytest.mark.django_db
@@ -205,3 +243,22 @@ class TestSurveys:
     def test_unauthenticated(self, api_client):
         response = api_client.post("/api/surveys/", {})
         assert response.status_code == 401
+
+    def test_survey_pending_reservation_rejected(self, auth_client, student):
+        course = CourseFactory()
+        shift = InstructorShiftFactory()
+        reservation = ReservationFactory(
+            student=student,
+            instructor_shift=shift,
+            course=course,
+            status="pending",
+        )
+        response = auth_client.post(
+            "/api/surveys/",
+            {
+                "reservation": reservation.id,
+                "rating": 5,
+                "comment": "良かった",
+            },
+        )
+        assert response.status_code == 400

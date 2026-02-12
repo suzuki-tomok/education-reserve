@@ -11,6 +11,7 @@ from apps.core.models import (
     School,
     Student,
     TimeSlot,
+    Progress,
 )
 
 
@@ -105,3 +106,12 @@ class ReservationFactory(factory.django.DjangoModelFactory):
     instructor_shift = factory.SubFactory(InstructorShiftFactory)
     course = factory.SubFactory(CourseFactory)
     status = "pending"
+
+
+class ProgressFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Progress
+
+    student = factory.SubFactory(StudentFactory)
+    course = factory.SubFactory(CourseFactory)
+    status = "not_started"
