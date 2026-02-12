@@ -1,5 +1,6 @@
 # apps/core/models/student_survey.py
 from django.db import models
+from django.db.models import Q
 from simple_history.models import HistoricalRecords
 
 
@@ -19,6 +20,12 @@ class StudentSurvey(models.Model):
         db_table = "student_surveys"
         verbose_name = "アンケート"
         verbose_name_plural = "アンケート"
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(rating__gte=1) & Q(rating__lte=5),
+                name="rating_range_1_to_5",
+            )
+        ]
 
     def __str__(self):
         return f"{self.student.name} - {self.rating}点"
