@@ -21,6 +21,10 @@
 - **DRF API** — 生徒向け（講座検索、予約、進捗確認、アンケート提出）
 - **Swagger UI** — API仕様書・動作確認（/api/docs/）
 
+## ER図
+
+![ER図](docs/er/er.svg)
+
 ## 画面イメージ
 
 ### Admin画面
